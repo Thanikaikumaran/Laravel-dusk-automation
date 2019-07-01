@@ -11,23 +11,23 @@
 ```composer require --dev laravel/dusk``` then
 ```php artisan dusk:install```
 
-Once you install dusk you can see dusk files in ->tests\Browser directory.
+> Once you install dusk you can see dusk files in ->tests\Browser directory.
 
 ## Running Tests
-To run your tests use the command:
+> To run your tests use the command:
 ```php artisan dusk```
-This will run the ExampleTest in tests\Browser\ExampleTest.php.
-
+> This will run the ExampleTest in tests\Browser\ExampleTest.php.
 You may save time by re-running the failing tests first using the dusk:fails command
 ```php artisan dusk:fails```
 
-If you need to execute particular testcase only you can use following command
+> If you need to execute particular testcase only you can use following command
 ```php artisan dusk tests/Browser/ExampleTest.php```
 
 ## Forms and Authentication
--------------------------------------
-php artisan make:auth
-add Schema::defaultStringLength(191) in your app\Providers\AppServiceProvider.php
+```php artisan make:auth```
+
+> add Schema::defaultStringLength(191) in your app\Providers\AppServiceProvider.php
+
 ```
 use Illuminate\Support\Facades\Schema;
 use Laravel\Dusk\DuskServiceProvider;
@@ -43,23 +43,25 @@ public function boot()
     Schema::defaultStringLength(191);
 }
 ```
-run 
+> run 
 ```php artisan migrate```
 
 ### Testcase
-Create new testcase
-```php artisan dusk:make LoginTest```
-Now in your tests\Browserfolder you will see the file LoginTest.php
+> Create new testcase
 
+```php artisan dusk:make LoginTest```
+
+> Now in your tests\Browserfolder you will see the file LoginTest.php
 If you need to create testcase inside of particular folder, you can use following command.
+
 ```php artisan dusk:make myapplication/LoginTest```
 
 ### create page
 ```php artisan dusk:page  LoginPage```
-Now in your tests\Browser\Pagesfolder you will see the file LoginPage.php.
+> Now in your tests\Browser\Pagesfolder you will see the file LoginPage.php.
 
 ### sample code for login
-tests\Browser\Pages\LoginPage.php
+> tests\Browser\Pages\LoginPage.php
 
 ```
 
