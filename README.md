@@ -8,8 +8,8 @@ composer create-project --prefer-dist laravel/laravel Laravel-dusk-automation
 
 ## Install dusk in your laravel project
 -------------------------------------
-composer require --dev laravel/dusk
-php artisan dusk:install
+$composer require --dev laravel/dusk
+$php artisan dusk:install
 Once you install dusk you can see dusk files in ->tests\Browser directory.
 
 ## Running Tests
@@ -28,7 +28,14 @@ php artisan dusk tests/Browser/ExampleTest.php
 php artisan make:auth
 add Schema::defaultStringLength(191) in your app\Providers\AppServiceProvider.php
 use Illuminate\Support\Facades\Schema;
+use Laravel\Dusk\DuskServiceProvider;
 
+public function register()
+{
+    if ($this->app->environment('local', 'testing')) {
+        $this->app->register(DuskServiceProvider::class);
+    }
+}
 public function boot()
 {
     Schema::defaultStringLength(191);
