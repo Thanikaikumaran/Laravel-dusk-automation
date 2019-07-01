@@ -15,12 +15,16 @@
 
 ## Running Tests
 > To run your tests use the command:
+
 ```php artisan dusk```
+
 > This will run the ExampleTest in tests\Browser\ExampleTest.php.
 You may save time by re-running the failing tests first using the dusk:fails command
+
 ```php artisan dusk:fails```
 
 > If you need to execute particular testcase only you can use following command
+
 ```php artisan dusk tests/Browser/ExampleTest.php```
 
 ## Forms and Authentication
@@ -58,6 +62,7 @@ If you need to create testcase inside of particular folder, you can use followin
 
 ### create page
 ```php artisan dusk:page  LoginPage```
+
 > Now in your tests\Browser\Pagesfolder you will see the file LoginPage.php.
 
 ### sample code for login
