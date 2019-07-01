@@ -1,72 +1,142 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Laravel-dusk-automation
+> Laravel Dusk was one of the new features introduced in Laravel 5.4. Dusk is a tool for application testing.Laravel Dusk is a powerful browser automation tool for Laravel. With Dusk you can programmatically test your own applications or visit any website on the internet using a real Chrome browser. By default, Dusk does not require you to install JDK or Selenium on your machine. Instead, Dusk uses a standalone Chromedriver. 
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Laravel Installation
+> To begin create a new Laravel project
 
-## About Laravel
+```composer create-project --prefer-dist laravel/laravel Laravel-dusk-automation```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Install dusk in your laravel project
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```composer require --dev laravel/dusk``` then
+```php artisan dusk:install```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+> Once you install dusk you can see dusk files in ->tests\Browser directory.
 
-## Learning Laravel
+## Running Tests
+> To run your tests use the command:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```php artisan dusk```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+> This will run the ExampleTest in tests\Browser\ExampleTest.php.
+You may save time by re-running the failing tests first using the dusk:fails command
 
-## Laravel Sponsors
+```php artisan dusk:fails```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+> If you need to execute particular testcase only you can use following command
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+```php artisan dusk tests/Browser/ExampleTest.php```
 
-## Contributing
+## Forms and Authentication
+```php artisan make:auth```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+> add Schema::defaultStringLength(191) in your app\Providers\AppServiceProvider.php
 
-## Security Vulnerabilities
+```
+use Illuminate\Support\Facades\Schema;
+use Laravel\Dusk\DuskServiceProvider;
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+public function register()
+{
+    if ($this->app->environment('local', 'testing')) {
+        $this->app->register(DuskServiceProvider::class);
+    }
+}
+public function boot()
+{
+    Schema::defaultStringLength(191);
+}
+```
+> run 
+```php artisan migrate```
 
-## License
+### Testcase
+> Create new testcase
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```php artisan dusk:make LoginTest```
+
+> Now in your tests\Browserfolder you will see the file LoginTest.php
+If you need to create testcase inside of particular folder, you can use following command.
+
+```php artisan dusk:make myapplication/LoginTest```
+
+### create page
+```php artisan dusk:page  LoginPage```
+
+> Now in your tests\Browser\Pagesfolder you will see the file LoginPage.php.
+
+### sample code for login
+> tests\Browser\Pages\LoginPage.php
+
+```
+public function elements()
+{
+    return [
+        '@username' => '#email',
+        '@pwd' => '#password',           
+    ];
+}
+    
+public function signIn(Browser $browser,$username,$pwd){
+   $browser ->clickLink('Login')
+            ->value('@username', $username)
+            ->value('@pwd', $pwd)
+            ->press('Login');
+}
+
+```
+
+> tests\Browser\LoginTest.php
+
+```
+use Tests\Browser\Pages\LoginPage;
+public function testExample()
+{
+    $this->browse(function (Browser $browser) {
+        $browser->visit(new LoginPage)
+                ->maximize()
+                ->signIn('suba@gmail.com','test1234')
+                ->assertSee('Dashboard');
+    });
+}
+
+```
+
+> If you like to see chrome driver with automation , 
+> commend '--headless' line 
+-> tests\DuskTestCase.php
+
+```
+protected function driver()
+{
+    $options = (new ChromeOptions)->addArguments([
+        '--disable-gpu',
+        // '--headless',
+        '--window-size=1920,1080',
+    ]);
+
+    return RemoteWebDriver::create(
+        'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
+            ChromeOptions::CAPABILITY, $options
+        )
+    );
+}
+
+```
+run LoginTest 
+```php artisan dusk tests/Browser/LoginTest.php```
+###### Output
+```
+PHPUnit 7.5.13 by Sebastian Bergmann and contributors.
+DevTools listening on ws://127.0.0.1:4602/devtools/browser/5ef72601-785a-4bc4-8831-cc310d629372
+.                                                                   1 / 1 (100%)
+
+Time: 6.43 seconds, Memory: 16.00 MB
+OK (1 test, 1 assertion)
+```
+
+### Useful Links
+[Laravel assertions ] (https://laravel.com/docs/5.8/dusk#available-assertions)
+
+
+
