@@ -2,14 +2,12 @@
 Laravel Dusk was one of the new features introduced in Laravel 5.4. Dusk is a tool for application testing.Laravel Dusk is a powerful browser automation tool for Laravel. With Dusk you can programmatically test your own applications or visit any website on the internet using a real Chrome browser. By default, Dusk does not require you to install JDK or Selenium on your machine. Instead, Dusk uses a standalone Chromedriver. 
 
 ## Laravel Installation
-To begin create a new Laravel project
--------------------------------------
-composer create-project --prefer-dist laravel/laravel Laravel-dusk-automation
+-To begin create a new Laravel project
+-composer create-project --prefer-dist laravel/laravel Laravel-dusk-automation
 
 ## Install dusk in your laravel project
--------------------------------------
-#composer require --dev laravel/dusk
-#php artisan dusk:install
+-composer require --dev laravel/dusk
+-php artisan dusk:install
 Once you install dusk you can see dusk files in ->tests\Browser directory.
 
 ## Running Tests
