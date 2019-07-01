@@ -8,8 +8,8 @@ composer create-project --prefer-dist laravel/laravel Laravel-dusk-automation
 
 ## Install dusk in your laravel project
 -------------------------------------
-$composer require --dev laravel/dusk
-$php artisan dusk:install
+#composer require --dev laravel/dusk
+#php artisan dusk:install
 Once you install dusk you can see dusk files in ->tests\Browser directory.
 
 ## Running Tests
