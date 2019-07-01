@@ -69,12 +69,74 @@ If you need to create testcase inside of particular folder, you can use followin
 > tests\Browser\Pages\LoginPage.php
 
 ```
-
+public function elements()
+{
+    return [
+        '@username' => '#email',
+        '@pwd' => '#password',           
+    ];
+}
+    
+public function signIn(Browser $browser,$username,$pwd){
+   $browser ->clickLink('Login')
+            ->value('@username', $username)
+            ->value('@pwd', $pwd)
+            ->press('Login');
+}
 
 ```
 
+> tests\Browser\LoginTest.php
 
+```
+use Tests\Browser\Pages\LoginPage;
+public function testExample()
+{
+    $this->browse(function (Browser $browser) {
+        $browser->visit(new LoginPage)
+                ->maximize()
+                ->signIn('suba@gmail.com','test1234')
+                ->assertSee('Dashboard');
+    });
+}
 
+```
+
+> If you like to see chrome driver with automation , 
+> commend '--headless' line 
+-> tests\DuskTestCase.php
+
+```
+protected function driver()
+{
+    $options = (new ChromeOptions)->addArguments([
+        '--disable-gpu',
+        // '--headless',
+        '--window-size=1920,1080',
+    ]);
+
+    return RemoteWebDriver::create(
+        'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
+            ChromeOptions::CAPABILITY, $options
+        )
+    );
+}
+
+```
+run LoginTest 
+```php artisan dusk tests/Browser/LoginTest.php```
+###### Output
+```
+PHPUnit 7.5.13 by Sebastian Bergmann and contributors.
+DevTools listening on ws://127.0.0.1:4602/devtools/browser/5ef72601-785a-4bc4-8831-cc310d629372
+.                                                                   1 / 1 (100%)
+
+Time: 6.43 seconds, Memory: 16.00 MB
+OK (1 test, 1 assertion)
+```
+
+### Useful Links
+[Laravel assertions ] (https://laravel.com/docs/5.8/dusk#available-assertions)
 
 
 
