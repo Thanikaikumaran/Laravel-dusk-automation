@@ -1,1 +1,2 @@
 # Laravel-dusk-automation
+Laravel Dusk was one of the new features introduced in Laravel 5.4. Dusk is a tool for application testing.Laravel Dusk is a powerful browser automation tool for Laravel. With Dusk you can programmatically test your own applications or visit any website on the internet using a real Chrome browser. By default, Dusk does not require you to install JDK or Selenium on your machine. Instead, Dusk uses a standalone Chromedriver. 
